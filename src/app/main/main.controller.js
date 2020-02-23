@@ -14,6 +14,10 @@
     vm.creationDate = 1582442504913;
     vm.showToastr = showToastr;
 
+    vm.getClonedObject = (speech) => {
+      return Object.assign({}, speech);
+    };
+
     vm.init = () => {
       vm.isViewSpeech = true;
       vm.speeches = [];
@@ -21,11 +25,24 @@
       if (_localStorageItem) {
         try {
           vm.speeches = JSON.parse(_localStorageItem);
+          vm.selectedSpeech = vm.getClonedObject(vm.speeches[0]);
         } catch (e) {
           console.log('Invalid localstorage item', e);
           localStorage.removeItem('speechList');
         }
       }  
+    };
+
+    vm.newSpeech = () => {
+      vm.reset();
+      vm.isViewSpeech = false;
+      vm.selectedSpeech = {};
+    };
+
+    vm.mySpeech = () => {
+      vm.reset();
+      vm.isViewSpeech = true;
+      vm.selectedSpeech = vm.getClonedObject(vm.speeches[0]);
     };
 
     vm.init();
@@ -34,29 +51,35 @@
 
     vm.saveLocalDB = () => {
       localStorage.setItem('speechList', JSON.stringify(vm.speeches));
-      // vm.init();
     };
 
     vm.selectSpeech = (speech) => {
-      vm.selectedSpeech = speech;
+      vm.selectedSpeech = vm.getClonedObject(speech);
     };
 
     vm.removeSpeech = (speech) => {
       if (!speech || !speech.id) return;
-      vm.speeches.splice(vm.speeches.indexOf(speech), 1);
+      let _index = vm.speeches.findIndex((item) => {
+        return item.id === speech.id;
+      })
+      vm.speeches.splice(_index, 1);
       vm.saveLocalDB();
       vm.reset();
     };
 
     vm.addSpeech = (newSpeech) => {
       if (newSpeech.id) {
-        
+        let _speech = vm.speeches.find((item) => {
+          return item.id === newSpeech.id;
+        });
+        _speech.description = newSpeech.description
+        _speech.author = newSpeech.author
+        _speech.subject = newSpeech.subject
+        _speech.date = newSpeech.date;
       } else {
         newSpeech.id = vm.speeches.length + 1;
         vm.speeches.push(newSpeech);
       }
-
-      
       vm.saveLocalDB();
       vm.reset();
     };
