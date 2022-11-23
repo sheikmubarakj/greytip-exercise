@@ -6,7 +6,7 @@
     "test": "gulp test"
   },
   "devDependencies": {
-    "browser-sync": "^2.26.7",
+    "browser-sync": "^2.27.10",
     "browser-sync-spa": "~1.0.3",
     "chalk": "~1.1.1",
     "del": "~2.0.2",
@@ -35,7 +35,7 @@
     "gulp-useref": "^4.0.1",
     "gulp-util": "~3.0.6",
     "http-proxy-middleware": "^1.0.3",
-    "karma": "^5.0.4",
+    "karma": "^5.2.3",
     "karma-angular-filesort": "~1.0.0",
     "karma-coverage": "^2.0.2",
     "karma-jasmine": "~0.3.6",
